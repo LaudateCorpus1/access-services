@@ -64,6 +64,7 @@ Table of Contents
    1.  Introduction
    2.  Conventions and Definitions
    3.  Format
+     3.1.  Examples
    4.  Discovery from an Origin
    5.  Security Considerations
    6.  IANA Considerations
@@ -125,29 +126,41 @@ Table of Contents
       Oblivious Request Resource and a "key" key conveying its KeyConfig
       in base64.
 
-   For example, a description making use of all four initial keys might
-   look like:
+3.1.  Examples
 
    {
      "dns": {
        "template": "https://doh.example.com/dns-query{?dns}",
      },
      "udp": {
-       "template": "https://proxy.example.org:4443/masque{?target_host,target_port}"
+       "template":
+           "https://proxy.example.org/masque{?target_host,target_port}"
      },
      "ip": {
-       "template": "https://proxy.example.org:4443/masque{?target,ip_proto}"
+       "template": "https://proxy.example.org/masque{?target,ip_proto}"
      },
      "ohai": {
        "proxy": {
          "uri": "https://proxy.example.org/ohai/"
-       },
+       }
+     }
+   }
+
+   Figure 1: A general-purpose proxy with UDP, IP, DNS, and OHAI support
+
+   {
+     "dns": {
+       "template": "https://doh.example.com/dns-query{?dns}",
+     },
+     "ohai": {
        "request": {
          "uri": "https://example.com/ohai/",
          "key": "(KeyConfig in Base64)"
        }
      }
    }
+
+               Figure 2: An Oblivious DNS over HTTPS service
 
 4.  Discovery from an Origin
 
