@@ -1,0 +1,193 @@
+
+
+
+
+masque                                                    B. M. Schwartz
+Internet-Draft                                                Google LLC
+Intended status: Informational                              6 April 2022
+Expires: 8 October 2022
+
+
+                HTTP Access Service Description Objects
+               draft-schwartz-masque-access-descriptions
+
+Abstract
+
+   HTTP proxies can operate several different kinds of access services.
+   This specification provides a format for identifying a collection of
+   such services.
+
+About This Document
+
+   This note is to be removed before publishing as an RFC.
+
+   Status information for this document may be found at
+   https://datatracker.ietf.org/doc/draft-schwartz-masque-access/.
+
+   Source for this draft and an issue tracker can be found at
+   https://github.com/bemasc/access-services.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 8 October 2022.
+
+Copyright Notice
+
+   Copyright (c) 2022 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
+
+Table of Contents
+
+   1.  Introduction
+   2.  Format
+   3.  Discovery from an Origin
+   4.  Conventions and Definitions
+   5.  Security Considerations
+   6.  IANA Considerations
+   7.  Normative References
+   Acknowledgments
+   Author's Address
+
+1.  Introduction
+
+   In HTTP/1.1, forward proxy service was originally defined in two
+   ways: absolute-uri form (encrypted at most hop-by-hop), and HTTP
+   CONNECT (potentially encrypted end-to-end).  Both of these services
+   were effectively origin-scoped: the access service was a property of
+   the origin, not associated with any particular path.
+
+   Recently, a variety of new standardized proxy-like services have
+   emerged for HTTP.  These new services are defined by URI templates
+   that produce one or more distinct paths for each service, allowing
+   distinct instances of the same service type to be served by a single
+   origin.  These services include:
+
+   *  DNS over HTTPS
+
+   *  CONNECT-UDP
+
+   *  CONNECT-IP
+
+   *  Oblivious HTTP
+
+   This specification provides a unified format for describing a
+   collection of such access services, and a mechanism for reaching such
+   services when the initial information contains only an HTTP origin.
+
+2.  Format
+
+   An access service collection is defined by a JSON dictionary
+   containing keys specified in the corresponding registry (Section 6).
+   Inclusion of each key is OPTIONAL.
+
+   The "doh", "udp", and "ip" keys are each defined to hold a JSON
+   dictionary containing the key "template" with a value that is a URI
+   template suitable for configuring DNS over HTTPS, CONNECT-UDP, or
+   CONNECT-IP, respectively.  The "ohai" key contains a dictionary whose
+   "request" key contains the URI of an Oblivious HTTP "request
+   resource".
+
+   For example, a description making use of all four initial keys might
+   look like:
+
+   {
+     "doh": {
+       "template": "https://doh.example.com/dns-query{?dns}",
+     },
+     "udp": {
+       "template": "https://proxy.example.org:4443/masque{?target_host,target_port}"
+     },
+     "ip": {
+       "template": "https://proxy.example.org:4443/masque{?target,ip_proto}"
+     },
+     "ohai": {
+       "request": "https://example.com/ohai/"
+     }
+   }
+
+3.  Discovery from an Origin
+
+   In cases where the HTTP access service is identified only by an
+   origin (e.g. when configured as a Secure Web Proxy), operators can
+   publish an associated access service collection at the path "/.well-
+   known/access-services", with the Content-Type "application/json".
+
+   Clients MAY fetch this access description and use the indicated
+   services (in addition to any origin-scoped services) automatically.
+   Clients MUST refresh the description periodically in accordance with
+   its indicated HTTP cache lifetime.
+
+4.  Conventions and Definitions
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+5.  Security Considerations
+
+   TODO Security
+
+6.  IANA Considerations
+
+   IANA is requested to open a Specification Required registry entitled
+   "HTTP Access Service Descriptors", with the following initial
+   contents:
+
+                        +======+=================+
+                        | Key  | Specification   |
+                        +======+=================+
+                        | doh  | (This document) |
+                        +------+-----------------+
+                        | udp  | (This document) |
+                        +------+-----------------+
+                        | ip   | (This document) |
+                        +------+-----------------+
+                        | ohai | (This document) |
+                        +------+-----------------+
+
+                                 Table 1
+
+7.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/rfc/rfc2119>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
+
+Acknowledgments
+
+   TODO acknowledge.
+
+Author's Address
+
+   Benjamin M. Schwartz
+   Google LLC
+   Email: bemasc@google.com
