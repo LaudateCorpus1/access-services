@@ -2,14 +2,14 @@
 
 
 
-masque                                                    B. M. Schwartz
+Multiplexed Application Substrate over QUIC Encryption    B. M. Schwartz
 Internet-Draft                                                Google LLC
-Intended status: Informational                              6 April 2022
+Intended status: Standards Track                            6 April 2022
 Expires: 8 October 2022
 
 
                 HTTP Access Service Description Objects
-               draft-schwartz-masque-access-descriptions
+            draft-schwartz-masque-access-descriptions-latest
 
 Abstract
 
@@ -22,7 +22,8 @@ About This Document
    This note is to be removed before publishing as an RFC.
 
    Status information for this document may be found at
-   https://datatracker.ietf.org/doc/draft-schwartz-masque-access/.
+   https://datatracker.ietf.org/doc/draft-schwartz-masque-access-
+   descriptions/.
 
    Source for this draft and an issue tracker can be found at
    https://github.com/bemasc/access-services.
@@ -61,9 +62,9 @@ Copyright Notice
 Table of Contents
 
    1.  Introduction
-   2.  Format
-   3.  Discovery from an Origin
-   4.  Conventions and Definitions
+   2.  Conventions and Definitions
+   3.  Format
+   4.  Discovery from an Origin
    5.  Security Considerations
    6.  IANA Considerations
    7.  Normative References
@@ -96,13 +97,21 @@ Table of Contents
    collection of such access services, and a mechanism for reaching such
    services when the initial information contains only an HTTP origin.
 
-2.  Format
+2.  Conventions and Definitions
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+3.  Format
 
    An access service collection is defined by a JSON dictionary
    containing keys specified in the corresponding registry (Section 6).
    Inclusion of each key is OPTIONAL.
 
-   The "doh", "udp", and "ip" keys are each defined to hold a JSON
+   The "dns", "udp", and "ip" keys are each defined to hold a JSON
    dictionary containing the key "template" with a value that is a URI
    template suitable for configuring DNS over HTTPS, CONNECT-UDP, or
    CONNECT-IP, respectively.  The "ohai" key contains a dictionary whose
@@ -113,7 +122,7 @@ Table of Contents
    look like:
 
    {
-     "doh": {
+     "dns": {
        "template": "https://doh.example.com/dns-query{?dns}",
      },
      "udp": {
@@ -127,7 +136,7 @@ Table of Contents
      }
    }
 
-3.  Discovery from an Origin
+4.  Discovery from an Origin
 
    In cases where the HTTP access service is identified only by an
    origin (e.g. when configured as a Secure Web Proxy), operators can
@@ -138,14 +147,6 @@ Table of Contents
    services (in addition to any origin-scoped services) automatically.
    Clients MUST refresh the description periodically in accordance with
    its indicated HTTP cache lifetime.
-
-4.  Conventions and Definitions
-
-   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
-   "OPTIONAL" in this document are to be interpreted as described in
-   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
-   capitals, as shown here.
 
 5.  Security Considerations
 
@@ -160,7 +161,7 @@ Table of Contents
                         +======+=================+
                         | Key  | Specification   |
                         +======+=================+
-                        | doh  | (This document) |
+                        | dns  | (This document) |
                         +------+-----------------+
                         | udp  | (This document) |
                         +------+-----------------+
@@ -170,6 +171,19 @@ Table of Contents
                         +------+-----------------+
 
                                  Table 1
+
+   IANA is requested to add the following entry to the "Well-Known URIs"
+   registry
+
+   +=================+============+=========+===========+==============+
+   | URI Suffix      | Change     |Reference| Status    | Related      |
+   |                 | Controller |         |           | Information  |
+   +=================+============+=========+===========+==============+
+   | access-services | IETF       |(This    | permanent | Sub-registry |
+   |                 |            |document)|           | at (link)    |
+   +-----------------+------------+---------+-----------+--------------+
+
+                                  Table 2
 
 7.  Normative References
 
