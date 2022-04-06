@@ -1182,7 +1182,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       </h2>
 <p id="section-3-1">An access service collection is defined by a JSON dictionary containing keys specified in the corresponding registry (<a href="#iana" class="xref">Section 6</a>).  Inclusion of each key is <span class="bcp14">OPTIONAL</span>.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <p id="section-3-2">The "dns", "udp", and "ip" keys are each defined to hold a JSON dictionary containing the key "template" with a value that is a URI template suitable for configuring DNS over HTTPS, CONNECT-UDP, or CONNECT-IP, respectively.<a href="#section-3-2" class="pilcrow">¶</a></p>
-<p id="section-3-3">The "ohai" key contains a dictionary with either or both of these keys:<a href="#section-3-3" class="pilcrow">¶</a></p>
+<p id="section-3-3">The "ohttp" key contains a dictionary with either or both of these keys:<a href="#section-3-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3-4.1">"proxy", containing a dictionary with a "uri" key indicating the Oblivious Proxy Resource.<a href="#section-3-4.1" class="pilcrow">¶</a>
 </li>
@@ -1194,7 +1194,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
         <h3 id="name-examples">
 <a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-examples" class="section-name selfRef">Examples</a>
         </h3>
-<span id="name-a-general-purpose-proxy-wit"></span><figure id="figure-1">
+<span id="name-a-proxy-with-udp-ip-dns-and"></span><figure id="figure-1">
           <div id="section-3.1-1.1">
 <pre class="lang-JSON sourcecode">
 {
@@ -1208,16 +1208,16 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
   "ip": {
     "template": "https://proxy.example.org/masque{?target,ip_proto}"
   },
-  "ohai": {
+  "ohttp": {
     "proxy": {
-      "uri": "https://proxy.example.org/ohai/"
+      "uri": "https://proxy.example.org/ohttp/"
     }
   }
 }
 </pre>
 </div>
 <figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
-<a href="#name-a-general-purpose-proxy-wit" class="selfRef">A general-purpose proxy with UDP, IP, DNS, and OHAI support</a>
+<a href="#name-a-proxy-with-udp-ip-dns-and" class="selfRef">A proxy with UDP, IP, DNS, and Oblivious HTTP support</a>
           </figcaption></figure>
 <span id="name-an-oblivious-dns-over-https"></span><figure id="figure-2">
           <div id="section-3.1-2.1">
@@ -1226,9 +1226,9 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
   "dns": {
     "template": "https://doh.example.com/dns-query{?dns}",
   },
-  "ohai": {
+  "ohttp": {
     "request": {
-      "uri": "https://example.com/ohai/",
+      "uri": "https://example.com/ohttp/",
       "key": "(KeyConfig in Base64)"
     }
   }
@@ -1287,7 +1287,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
             <td class="text-left" rowspan="1" colspan="1">(This document)</td>
           </tr>
           <tr>
-            <td class="text-left" rowspan="1" colspan="1">ohai</td>
+            <td class="text-left" rowspan="1" colspan="1">ohttp</td>
             <td class="text-left" rowspan="1" colspan="1">(This document)</td>
           </tr>
         </tbody>

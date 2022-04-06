@@ -116,7 +116,7 @@ Table of Contents
    template suitable for configuring DNS over HTTPS, CONNECT-UDP, or
    CONNECT-IP, respectively.
 
-   The "ohai" key contains a dictionary with either or both of these
+   The "ohttp" key contains a dictionary with either or both of these
    keys:
 
    *  "proxy", containing a dictionary with a "uri" key indicating the
@@ -139,22 +139,22 @@ Table of Contents
      "ip": {
        "template": "https://proxy.example.org/masque{?target,ip_proto}"
      },
-     "ohai": {
+     "ohttp": {
        "proxy": {
-         "uri": "https://proxy.example.org/ohai/"
+         "uri": "https://proxy.example.org/ohttp/"
        }
      }
    }
 
-   Figure 1: A general-purpose proxy with UDP, IP, DNS, and OHAI support
+      Figure 1: A proxy with UDP, IP, DNS, and Oblivious HTTP support
 
    {
      "dns": {
        "template": "https://doh.example.com/dns-query{?dns}",
      },
-     "ohai": {
+     "ohttp": {
        "request": {
-         "uri": "https://example.com/ohai/",
+         "uri": "https://example.com/ohttp/",
          "key": "(KeyConfig in Base64)"
        }
      }
@@ -184,19 +184,19 @@ Table of Contents
    "HTTP Access Service Descriptors", with the following initial
    contents:
 
-                        +======+=================+
-                        | Key  | Specification   |
-                        +======+=================+
-                        | dns  | (This document) |
-                        +------+-----------------+
-                        | udp  | (This document) |
-                        +------+-----------------+
-                        | ip   | (This document) |
-                        +------+-----------------+
-                        | ohai | (This document) |
-                        +------+-----------------+
+                        +=======+=================+
+                        | Key   | Specification   |
+                        +=======+=================+
+                        | dns   | (This document) |
+                        +-------+-----------------+
+                        | udp   | (This document) |
+                        +-------+-----------------+
+                        | ip    | (This document) |
+                        +-------+-----------------+
+                        | ohttp | (This document) |
+                        +-------+-----------------+
 
-                                 Table 1
+                                  Table 1
 
    IANA is requested to add the following entry to the "Well-Known URIs"
    registry
